@@ -1,0 +1,384 @@
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            /* lebih tipis */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 500;
+        }
+
+        input,
+        select,
+        textarea,
+        .form-control,
+        .form-select,
+        .btn,
+        .nav-link,
+        .input-group-text,
+        .dropdown-item {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 300;
+        }
+
+        .form-control {
+            padding: 0.35rem 0.6rem;
+            height: auto;
+        }
+
+        .sidebar a i {
+            font-size: 0.80rem !important;
+            margin-right: 6px;
+        }
+
+        table.dataTable tbody tr:hover {
+            background-color: #f0f7ff !important;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .flatpickr-input {
+            background-color: #ffffff !important;
+        }
+
+        table.dataTable,
+        table.dataTable td {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 300 !important;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 300 !important;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-wrapper {
+            flex: 1 0 auto;
+            /* supaya footer tetap di bawah */
+        }
+
+        .main-footer {
+            flex-shrink: 0;
+        }
+
+        /* GLOBAL SWEETALERT2 OVERRIDE   */
+
+        /* Popup keseluruhan lebih kecil */
+        .swal2-popup {
+            font-size: 13px !important;
+            padding: 10px !important;
+            width: 300px !important;
+            /* default=500px */
+        }
+
+        /* Title lebih kecil */
+        .swal2-title {
+            font-size: 16px !important;
+        }
+
+        /* Isi text */
+        .swal2-html-container {
+            font-size: 14px !important;
+            padding: 5px 0 !important;
+            text-align: center !important;
+        }
+
+        /* Tombol Confirm */
+        .swal2-confirm {
+            font-size: 12px !important;
+            padding: 4px 12px !important;
+            height: auto !important;
+        }
+
+        /* Tombol Cancel */
+        .swal2-cancel {
+            font-size: 12px !important;
+            padding: 4px 12px !important;
+            height: auto !important;
+        }
+
+        /* Pastikan container popup tetap menggunakan align bawaan */
+        .small-swal {
+            width: 300px !important;
+            padding: 10px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+        }
+
+        /* Icon info/sukses/dll dikecilkan */
+        .swal2-icon {
+            margin: 0 auto !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        /* Input SweetAlert (jika ada form) */
+        .swal2-input {
+            font-size: 12px !important;
+            padding: 4px 8px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 36px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 34px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 34px;
+        }
+
+        /* Font dropdown & selected value */
+        .select2-container--bootstrap4 .select2-selection {
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        /* Teks item dropdown */
+        .select2-container--bootstrap4 .select2-results__option {
+            font-size: 13px;
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-container--default .select2-selection--multiple {
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            padding: 4px 8px;
+            font-size: 14px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #e9ecef;
+            color: #343a40;
+            font-size: 13px;
+            padding-left: 25px
+        }
+
+        .modal-body {
+            position: relative;
+        }
+
+        /* =========================
+   PRIMARY COLOR VARIABLE
+========================= */
+
+        :root {
+            --primary-color: #1e90ff;
+            --primary-hover: #087bee;
+            --primary-light: #b2d7ff;
+        }
+
+
+        /* =========================
+   BUTTON
+========================= */
+
+        .btn-primary {
+            background-color: #1e90ff !important;
+            border-color: #1e90ff !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #087bee !important;
+            border-color: #087bee !important;
+        }
+
+         .text-primary {
+            color: #087bee !important;
+        }
+
+
+        /* =========================
+   BACKGROUND
+========================= */
+
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+
+        /* =========================
+   BADGE
+========================= */
+
+        .badge-primary {
+            background-color: var(--primary-color);
+        }
+
+
+        /* =========================
+   CARD
+========================= */
+
+        .card-primary:not(.card-outline)>.card-header {
+            background-color: var(--primary-color);
+        }
+
+        .card-primary.card-outline {
+            border-top: 3px solid var(--primary-color);
+        }
+
+
+        /* =========================
+   NAVBAR
+========================= */
+
+        .navbar-primary {
+            background-color: var(--primary-color);
+        }
+
+
+        /* =========================
+   SIDEBAR ACTIVE
+========================= */
+
+        .nav-sidebar .nav-item>.nav-link.active {
+            background-color: var(--primary-color) !important;
+        }
+
+
+        /* =========================
+   PAGINATION
+========================= */
+
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .page-link {
+            color: var(--primary-color);
+        }
+
+        .page-link:hover {
+            color: var(--primary-hover);
+        }
+
+
+        /* =========================
+   ALERT
+========================= */
+
+        .alert-primary {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+
+        /* =========================
+   PROGRESS BAR
+========================= */
+
+        .progress-bar {
+            background-color: var(--primary-color);
+        }
+
+
+        /* =========================
+   DROPDOWN
+========================= */
+
+        .dropdown-item.active,
+        .dropdown-item:active {
+            background-color: var(--primary-color);
+        }
+
+
+        /* =========================
+   FORM CONTROL
+========================= */
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .25);
+        }
+
+
+        /* =========================
+   CUSTOM CHECKBOX
+========================= */
+
+        .custom-control-input:checked~.custom-control-label::before {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+
+        /* =========================
+   TABLE
+========================= */
+
+        .table-primary {
+            background-color: var(--primary-light);
+        }
+
+
+        /* =========================
+   LINK
+========================= */
+
+        a {
+            color: var(--primary-color);
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+        }
+
+
+        /* =========================
+   NAV TABS
+========================= */
+
+        .nav-tabs .nav-link.active {
+            border-color: var(--primary-color);
+        }
+
+
+        /* =========================
+   SIDEBAR BRAND
+========================= */
+
+        .brand-link {
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+
+        /* =========================
+   DATA TABLE SELECTED
+========================= */
+
+        table.dataTable tbody tr.selected {
+            background-color: var(--primary-light);
+        }
+
+
+        /* =========================
+   MODAL HEADER PRIMARY
+========================= */
+
+        .modal-header.bg-primary {
+            background-color: var(--primary-color);
+        }
+        
