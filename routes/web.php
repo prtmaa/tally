@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
         ->name('timbangan.export');
     Route::get('/print-struk/{id}', [TimbanganController::class, 'printStruk']);
     Route::get('/print-timbangan/{id}', [TimbanganController::class, 'printTimbangan']);
+    Route::post('/timbangan/update-warna/{id}', [TimbanganController::class, 'updateWarna']);
 });
 
 require __DIR__ . '/auth.php';

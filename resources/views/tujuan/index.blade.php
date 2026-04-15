@@ -5,9 +5,17 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"> <a href="{{ url('/') }}">Dashboard</a></li>
+    <li class="breadcrumb-item">
+        <a href="{{ url('/') }}">Dashboard</a>
+    </li>
     <li class="breadcrumb-item"><a href="{{ url('/tally') }}">Data</a></li>
-    <li class="breadcrumb-item active">DO</li>
+    <li class="breadcrumb-item active">
+        @if ($tanggal->jenis == 'Frozen')
+            Rak
+        @else
+            DO
+        @endif
+    </li>
 @endsection
 
 @section('content')
@@ -36,7 +44,13 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" style="width:5%">No</th>
-                                                <th style="width:25%">DO</th>
+                                                <th style="width:25%">
+                                                    @if ($tanggal->jenis == 'Frozen')
+                                                        Rak
+                                                    @else
+                                                        DO
+                                                    @endif
+                                                </th>
                                                 <th style="width:30%">Prod. Date 1</th>
                                                 <th style="width:30%">Prod. Date 2</th>
                                                 <th class="text-center" style="width:15%">Aksi</th>

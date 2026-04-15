@@ -21,7 +21,13 @@
                             name="tanggal_kiriman_id" hidden>
 
                         <div class="form-group row">
-                            <label for="nama_tujuan" class="col-md-2 col-md-offset-1 control-label">DO</label>
+                            <label for="nama_tujuan" class="col-md-2 col-md-offset-1 control-label">
+                                @if ($tanggal->jenis == 'Frozen')
+                                    Rak
+                                @else
+                                    DO
+                                @endif
+                            </label>
                             <div class="col-md 6">
                                 <input type="text" name="nama_tujuan" id="nama_tujuan" class="form-control" required
                                     oninvalid="this.setCustomValidity('Nama DO harus diisi')"

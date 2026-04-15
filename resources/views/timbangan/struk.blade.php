@@ -6,19 +6,29 @@
 
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            width: 70mm;
+            font-size: 10px;
             margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .container {
             width: 70mm;
             margin: 0 auto;
-            padding: 5px 0;
+            padding: 2px 0;
         }
 
         .line {
             border-top: 1px dashed black;
             margin: 6px 0;
+        }
+
+        table td.tujuan-utama {
+            font-weight: 900 !important;
+            font-size: 18px !important;
+            color: #000 !important;
+            line-height: 0.9;
+            text-align: center;
         }
 
         p {
@@ -28,6 +38,7 @@
         table {
             width: 100%;
             font-size: 10px;
+            border-collapse: collapse;
         }
 
         td {
@@ -66,7 +77,18 @@
                     $total_pcs = 0;
                     $total_berat = 0;
                 @endphp
+                <table>
+                    <tr>
+                        <!-- Kolom 1: Kosong (sebagai penyeimbang) -->
+                        <td width="20%"></td>
 
+                        <!-- Kolom 2: Tujuan (Tengah) -->
+                        <td class="tujuan-utama center">{{ $data->tujuan->nama_tujuan ?? '-' }}</td>
+
+                        <!-- Kolom 3: Urutan (Kanan) -->
+                        <td class="right" width="20%"></td>
+                    </tr>
+                </table>
                 <div class="line"></div>
 
                 <table>
@@ -78,6 +100,11 @@
                     <tr>
                         <td>Prod. Date</td>
                         <td align="right">{{ $data->prod_date ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="center">
+                            {{ date('d-m-Y', strtotime($data->created_at)) }}
+                        </td>
                     </tr>
                 </table>
 
@@ -103,12 +130,6 @@
                         <tr>
                             <td>Berat</td>
                             <td align="right">{{ number_format($t->berat, 2) }} Kg</td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2" class="center">
-                                {{ date('d-m-Y', strtotime($t->created_at)) }}
-                            </td>
                         </tr>
 
                         <tr>

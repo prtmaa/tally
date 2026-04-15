@@ -5,7 +5,7 @@
         </div>
 
         <div class="d-none d-sm-block">
-            &copy; {{ date('Y') }} <strong>Tally Boneless</strong>. All rights reserved.
+            &copy; {{ date('Y') }} <strong>Tally Produksi</strong>.
         </div>
     </div>
 </footer>

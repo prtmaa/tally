@@ -132,6 +132,18 @@ class TimbanganController extends Controller
         return response()->json(['status' => 'success']);
     }
 
+    public function updateWarna(Request $request, $id)
+    {
+        $timbangan = Timbangan::findOrFail($id);
+
+        $timbangan->warna = $request->warna ?: null;
+
+        $timbangan->save();
+
+        return response()->json(['success' => true]);
+    }
+
+
     public function rekap($id)
     {
         $data = DB::table('tujuan_produks')
@@ -164,7 +176,7 @@ class TimbanganController extends Controller
         $data = TujuanProduk::with(['produk', 'timbangans', 'tujuan'])->findOrFail($tujuan_produk_id);
         $timbangans = $data->timbangans;
         $chunks = $timbangans->chunk(10);
-        $pdf = Pdf::loadView('timbangan.struk', ['data' => $data, 'chunks' => $chunks])->setPaper([0, 0, 226.77, 950], 'portrait');
+        $pdf = Pdf::loadView('timbangan.struk', ['data' => $data, 'chunks' => $chunks])->setPaper([0, 0, 226.77, 750], 'portrait');
         return $pdf->stream("sampel.pdf");
     }
 

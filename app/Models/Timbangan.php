@@ -16,7 +16,8 @@ class Timbangan extends Model
         'pcs',
         'seri',
         'berat',
-        'urutan'
+        'urutan',
+        'warna',
     ];
 
     // public function tujuan()

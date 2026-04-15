@@ -1,7 +1,11 @@
 @extends('layouts.master')
 
 @section('tittle')
-    DO : {{ $tujuan->nama_tujuan }}
+    @if ($tujuan->tanggal->jenis == 'Frozen')
+        Rak
+    @else
+        DO
+    @endif : {{ $tujuan->nama_tujuan }}
 @endsection
 @section('info')
     <div class="mt-2">
@@ -13,7 +17,13 @@
 @section('breadcrumb')
     <li class="breadcrumb-item"> <a href="{{ url('/') }}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{ url('/tally') }}">Data</a></li>
-    <li class="breadcrumb-item"><a href="{{ url('/tujuan/tanggal/' . $tujuan->tanggal_kiriman_id) }}">DO</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('/tujuan/tanggal/' . $tujuan->tanggal_kiriman_id) }}">
+            @if ($tujuan->tanggal->jenis == 'Frozen')
+                Rak
+            @else
+                DO
+            @endif
+        </a></li>
     <li class="breadcrumb-item active">Tally</li>
 @endsection
 
@@ -129,13 +139,42 @@
         }
 
         /* hover table */
-        .produk-panel tbody tr:hover {
-            background: #fafafa;
-        }
 
         .produk-panel input:focus {
             box-shadow: none;
             border-color: #007bff;
+        }
+
+        .tr-merah {
+            background-color: #f5c2c7;
+        }
+
+        .tr-hijau {
+            background-color: #badbcc;
+        }
+
+        .tr-kuning {
+            background-color: #ffe69c;
+        }
+
+        .tr-biru {
+            background-color: #b6effb;
+        }
+
+        .tr-ungu {
+            background-color: #d6c2f0;
+        }
+
+        .tr-abu {
+            background-color: #d3d6d8;
+        }
+
+        .tr-orange {
+            background-color: #ffd8a8;
+        }
+
+        .tr-coklat {
+            background-color: #d2b48c;
         }
     </style>
 
@@ -293,11 +332,14 @@
 
             let panel = $(`.produk-panel[data-id=${panel_id}]`);
 
+            let warnaClass = data.warna ? `tr-${data.warna}` : '';
+
             let row = `
-                <tr data-id="${data.id}" data-pcs="${data.pcs}" data-berat="${data.berat}" data-seri="${data.seri}">
+                <tr class="${warnaClass}" data-id="${data.id}" data-pcs="${data.pcs}" data-berat="${data.berat}" data-seri="${data.seri}">
                     <td><a class="showSeri text-info" title="Lihat Seri">${data.urutan}</a></td>
                     <td class="pcs">${data.pcs ?? ''}</td>
                     <td class="berat">${data.berat ?? ''}</td>
+
                     <td>
                         @if ($tujuan->isOwner())
                         <a class="ms-1 updateTimbangan text-info" title="Edit">
@@ -306,19 +348,91 @@
                         <a class="ms-1 hapusTimbangan text-danger" title="Hapus">
                             <i class="fa fa-trash"></i>
                         </a>
+                        <a href="javascript:void(0)" class="pilihWarnaBtn text-info">
+                            <i class="fa fa-palette"></i>
+                        </a>
                         @endif
 
-                     <a href="javascript:void(0)" onclick="printTimbangan(${data.id})" class="text-info">
-                        <i class="fa fa-print"></i>
-                    </a>
+                        <a href="javascript:void(0)" onclick="printTimbangan(${data.id})" class="text-info">
+                            <i class="fa fa-print"></i>
+                        </a>
                     </td>
                 </tr>
-                `;
+            `;
 
             panel.find('tbody').prepend(row);
 
             hitungTotal(panel);
+        }
 
+        $(document).on('click', '.pilihWarnaBtn', function() {
+
+            let row = $(this).closest('tr');
+            let id = row.data('id');
+
+            Swal.fire({
+                title: 'Pilih Warna',
+                icon: 'info',
+                html: `
+            <div class="mt-2" style="display:grid; grid-template-columns: repeat(4,1fr); gap:10px; text-align:center;">
+            
+                <button class="btn-warna" data-warna="merah" style="background:#dc3545;width:50px;height:50px;border:none;"></button>
+                <button class="btn-warna" data-warna="hijau" style="background:#28a745;width:50px;height:50px;border:none;"></button>
+                <button class="btn-warna" data-warna="kuning" style="background:#ffc107;width:50px;height:50px;border:none;"></button>
+                <button class="btn-warna" data-warna="biru" style="background:#17a2b8;width:50px;height:50px;border:none;"></button>
+                
+                <button class="btn-warna" data-warna="ungu" style="background:#6f42c1;width:50px;height:50px;border:none;"></button>
+                <button class="btn-warna" data-warna="abu" style="background:#6c757d;width:50px;height:50px;border:none;"></button>
+                <button class="btn-warna" data-warna="orange" style="background:#fd7e14;width:50px;height:50px;border:none;"></button>
+                <button class="btn-warna" data-warna="coklat" style="background:#8b5e3c;width:50px;height:50px;border:none;"></button>
+
+            </div>
+
+            <button id="resetWarna" class="btn btn-secondary btn-sm mt-3">Reset</button>
+        `,
+                showConfirmButton: false,
+                didOpen: () => {
+
+                    $('.btn-warna').click(function() {
+
+                        let warna = $(this).data('warna');
+
+                        row.removeClass(
+                            'tr-merah tr-hijau tr-kuning tr-biru tr-ungu tr-abu tr-orange tr-coklat'
+                        );
+
+                        row.addClass(`tr-${warna}`);
+
+                        simpanWarna(id, warna);
+
+                        Swal.close();
+                    });
+
+                    $('#resetWarna').click(function() {
+
+                        row.removeClass(
+                            'tr-merah tr-hijau tr-kuning tr-biru tr-ungu tr-abu tr-orange tr-coklat'
+                        );
+
+                        simpanWarna(id, '');
+
+                        Swal.close();
+                    });
+
+                }
+            });
+
+        });
+
+        function simpanWarna(id, warna) {
+            $.ajax({
+                url: `/timbangan/update-warna/${id}`,
+                method: 'POST',
+                data: {
+                    warna: warna, // '' untuk reset
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }
+            });
         }
 
         $(document).on('click', '.showSeri', function() {
@@ -424,35 +538,35 @@
             });
 
             let html = `
-    <div class="produk-panel">
+            <div class="produk-panel">
 
-        <div class="card card-outline card-primary">
-            <div class="card-body">
+                <div class="card card-outline card-primary">
+                    <div class="card-body">
 
-                <div class='mb-2'>
-                    <select class="form-control pilihProduk select2">
-                        <option value="">Pilih Item</option>
-                        ${option}
-                    </select>
+                        <div class='mb-2'>
+                            <select class="form-control pilihProduk select2">
+                                <option value="">Pilih Item</option>
+                                ${option}
+                            </select>
+                        </div>
+
+                        <div class='mb-2'>
+                            <select class="form-control prodDate select2" data-placeholder="Prod. Date">
+                                ${prodDateOption}
+                            </select>
+                        </div>
+
+                        <input type="text" class="form-control note mb-2" placeholder="Deskripsi (Opsional)">
+
+                        <button class="btn btn-primary btn-sm simpanProduk">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                    </div>
                 </div>
-
-                <div class='mb-2'>
-                    <select class="form-control prodDate select2" data-placeholder="Prod. Date">
-                        ${prodDateOption}
-                    </select>
-                </div>
-
-                <input type="text" class="form-control note mb-2" placeholder="Deskripsi (Opsional)">
-
-                <button class="btn btn-primary btn-sm simpanProduk">
-                    <i class="fa fa-plus"></i>
-                </button>
 
             </div>
-        </div>
-
-    </div>
-    `;
+            `;
 
             $('#containerProduk').append(html);
             initSelect2();
@@ -467,35 +581,47 @@
 
         $(document).on('click', '.simpanProduk', function() {
 
-            let panel = $(this).closest('.produk-panel');
+            let btn = $(this);
+
+            if (btn.data('loading')) return;
+            btn.data('loading', true);
+
+            let panel = btn.closest('.produk-panel');
 
             let produk_id = panel.find('.pilihProduk').val();
             let prod_date = panel.find('.prodDate').val();
             let note = panel.find('.note').val();
 
+            btn.prop('disabled', true).text('Loading...');
+
             $.post('/tujuan-produk', {
-
-                _token: "{{ csrf_token() }}",
-                tujuan_id: tujuan_id,
-                produk_id: produk_id,
-                prod_date: prod_date,
-                note: note
-
-            }, function() {
-
-                loadData();
-
-            });
+                    _token: "{{ csrf_token() }}",
+                    tujuan_id: tujuan_id,
+                    produk_id: produk_id,
+                    prod_date: prod_date,
+                    note: note
+                })
+                .done(function() {
+                    loadData();
+                })
+                .always(function() {
+                    btn.prop('disabled', false).html('<i class="fa fa-plus"></i>');
+                    btn.data('loading', false);
+                });
 
         });
 
-
         $(document).on('click', '.simpan', function() {
 
-            let panel = $(this).closest('.produk-panel');
+            let btn = $(this);
+
+            // 🔥 cegah double klik
+            if (btn.data('loading')) return;
+            btn.data('loading', true);
+
+            let panel = btn.closest('.produk-panel');
 
             let tujuan_produk_id = panel.data('id');
-
             let pcs = panel.find('.pcs').val();
             let berat = panel.find('.berat').val();
 
@@ -505,29 +631,64 @@
                     title: 'Error',
                     text: 'Tidak boleh ada field yang kosong',
                     confirmButtonColor: '#3085d6',
-                })
+                });
+
+                btn.data('loading', false);
                 return;
             }
 
-            $.post('/timbangan', {
+            // 🔥 loading UI
+            btn.prop('disabled', true)
+                .html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
 
-                _token: "{{ csrf_token() }}",
-                tujuan_produk_id: tujuan_produk_id,
-                pcs: pcs,
-                berat: berat
+            $.ajax({
+                url: '/timbangan',
+                method: 'POST',
+                timeout: 10000, // 🔥 10 detik
 
-            }, function(res) {
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tujuan_produk_id: tujuan_produk_id,
+                    pcs: pcs,
+                    berat: berat
+                },
 
-                tambahRow(tujuan_produk_id, res.data);
+                success: function(res) {
 
-                panel.find('.berat').val('');
-                panel.find('.berat').focus();
+                    tambahRow(tujuan_produk_id, res.data);
 
-                // let id = res.data.id;
+                    panel.find('.berat').val('').focus();
 
-                // window.open('/print-timbangan/' + id, '_blank');
+                },
 
+                error: function(xhr, status) {
+
+                    if (status === 'timeout') {
+                        Swal.fire('Timeout', 'Koneksi lambat, coba lagi', 'warning');
+                    } else {
+                        Swal.fire('Error', 'Gagal simpan data', 'error');
+                    }
+
+                },
+
+                complete: function() {
+                    // 🔥 pasti jalan (success / error / timeout)
+                    btn.prop('disabled', false)
+                        .html('<i class="fa fa-save"></i> Simpan');
+
+                    btn.data('loading', false);
+                }
             });
+
+            // 🔥 failsafe kalau request mati total
+            setTimeout(() => {
+                if (btn.data('loading')) {
+                    btn.prop('disabled', false)
+                        .html('<i class="fa fa-save"></i> Simpan');
+
+                    btn.data('loading', false);
+                }
+            }, 15000);
 
         });
 
@@ -543,11 +704,17 @@
 
                 e.preventDefault();
 
-                $(this).closest('.produk-panel').find('.simpan').click();
+                let panel = $(this).closest('.produk-panel');
+                let btn = panel.find('.simpan');
 
+                // 🔥 kalau sedang loading → stop
+                if (btn.data('loading')) return;
+
+                btn.click();
             }
 
         });
+
 
         $(document).on('click', '.editProduk', function() {
 
@@ -571,22 +738,22 @@
             Swal.fire({
                 title: 'Edit Produk',
                 html: `
-    <div class="mb-2">
-        <select id="edit_produk" class="form-control">
-            ${option}
-        </select>
-    </div>
+                <div class="mb-2">
+                    <select id="edit_produk" class="form-control">
+                        ${option}
+                    </select>
+                </div>
 
-    <div class="mb-2">
-        <select id="edit_prod_date" class="form-control">
-            ${prodDateOption}
-        </select>
-    </div>
+                <div class="mb-2">
+                    <select id="edit_prod_date" class="form-control">
+                        ${prodDateOption}
+                    </select>
+                </div>
 
-    <div>
-        <input id="edit_note" class="form-control" placeholder="  Deskripsi (Opsional)">
-    </div>
-    `,
+                <div>
+                    <input id="edit_note" class="form-control" placeholder="  Deskripsi (Opsional)">
+                </div>
+                `,
                 showCancelButton: true,
                 confirmButtonText: 'Update',
                 icon: 'warning',
@@ -631,7 +798,6 @@
             });
 
         });
-
 
         $(document).on('click', '.hapusProduk', function() {
 
@@ -687,10 +853,10 @@
             Swal.fire({
                 title: 'Edit Timbangan',
                 html: `
-    <input id="edit_pcs" class="swal2-input" type="number" min="0" value="${pcs}" placeholder="PCS">
-    <input id="edit_berat" class="swal2-input" type="number" step="0.01" min="0" value="${berat}"
-        placeholder="Berat">
-    `,
+                <input id="edit_pcs" class="swal2-input" type="number" min="0" value="${pcs}" placeholder="PCS">
+                <input id="edit_berat" class="swal2-input" type="number" step="0.01" min="0" value="${berat}"
+                    placeholder="Berat">
+                `,
                 showCancelButton: true,
                 confirmButtonText: 'Update',
                 icon: 'warning',
@@ -794,13 +960,13 @@
                     totalBerat += parseFloat(berat);
 
                     html += `
-    <tr>
-        <td>${i+1}</td>
-        <td>${item.nama_produk}</td>
-        <td>${pcs}</td>
-        <td>${parseFloat(berat).toFixed(2)}</td>
-    </tr>
-    `;
+                    <tr>
+                        <td>${i+1}</td>
+                        <td>${item.nama_produk}</td>
+                        <td>${pcs}</td>
+                        <td>${parseFloat(berat).toFixed(2)}</td>
+                    </tr>
+                    `;
 
                 });
 

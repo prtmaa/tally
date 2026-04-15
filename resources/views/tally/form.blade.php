@@ -32,6 +32,7 @@
                             <div class="col-md-8">
                                 <select name="jenis" id="jenis" class="form-control select2bs4">
                                     <option value="" disabled selected>Pilih tally...</option>
+                                    <option value="Fresh BSB">Fresh BSB</option>
                                     <option value="Fresh Campuran">Fresh Campuran</option>
                                     <option value="Fresh Tulang">Fresh Tulang</option>
                                     <option value="Frozen">Frozen</option>
