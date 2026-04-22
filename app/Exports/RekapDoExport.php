@@ -71,7 +71,7 @@ class RekapDoExport implements FromCollection, WithEvents
                 $sheet->setCellValue('A5', 'Tanggal');
                 $sheet->setCellValue('C5', ': ' . (formatTanggalIndo($tujuan->created_at) ?? ''));
 
-                $pd = array_filter([$tujuan->prod_date_1, $tujuan->prod_date_2]);
+                $pd = array_filter([$tujuan->prod_date_1, $tujuan->prod_date_2, $tujuan->prod_date_3]);
 
                 $sheet->setCellValue('A6', 'Prod. Date');
                 $sheet->setCellValue('C6', ': ' . implode(' / ', $pd));

@@ -27,20 +27,28 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ url('tally') }}"
+                        class="nav-link {{ request()->is('tally*') || request()->is('tujuan*') || request()->is('timbangan*') ? 'active' : '' }} text-light">
+                        <i class="nav-icon fas fa-balance-scale"></i>
+                        <p>Bahan</p>
+                    </a>
+                </li>
+
                 <!-- Item -->
                 <li class="nav-item">
                     <a href="{{ url('tally') }}"
                         class="nav-link {{ request()->is('tally*') || request()->is('tujuan*') || request()->is('timbangan*') ? 'active' : '' }} text-light">
                         <i class="nav-icon fas fa-balance-scale"></i>
-                        <p>Tally</p>
+                        <p>Hasil</p>
                     </a>
                 </li>
 
                 <!-- Data -->
                 <li
-                    class="nav-item has-treeview {{ request()->is('produk*') || request()->is('user*') ? 'menu-open' : '' }}">
+                    class="nav-item has-treeview {{ request()->is('produk*') || request()->is('user*') || request()->is('bahan*') ? 'menu-open' : '' }}">
                     <a href="#"
-                        class="nav-link {{ request()->is('produk*') || request()->is('user*') ? 'active' : '' }} text-light">
+                        class="nav-link {{ request()->is('produk*') || request()->is('user*') || request()->is('bahan*') ? 'active' : '' }} text-light">
                         <i class="nav-icon fas fa-database"></i>
                         <p>Data <i class="fas fa-angle-left right"></i></p>
                     </a>
@@ -50,6 +58,13 @@
                                 class="nav-link {{ request()->is('produk*') ? 'active' : '' }} text-light">
                                 <i class="fas fa-tags nav-icon"></i>
                                 <p>Item</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('bahan') }}"
+                                class="nav-link {{ request()->is('bahan*') ? 'active' : '' }} text-light">
+                                <i class="fas fa-tags nav-icon"></i>
+                                <p>Bahan</p>
                             </a>
                         </li>
                         <li class="nav-item">

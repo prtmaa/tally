@@ -16,6 +16,7 @@ class Tujuan extends Model
         'nama_tujuan',
         'prod_date_1',
         'prod_date_2',
+        'prod_date_3',
     ];
 
     public function tanggal()

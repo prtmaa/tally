@@ -10,7 +10,8 @@
 @section('info')
     <div class="mt-2">
         Tanggal : {{ formatTanggalIndo($tujuan->tanggal->tanggal) }}<br>
-        Prod. Date : {{ $tujuan->prod_date_1 }} {{ $tujuan->prod_date_2 ? ' , ' . $tujuan->prod_date_2 : '' }}
+        Prod. Date : {{ $tujuan->prod_date_1 }}
+        {{ $tujuan->prod_date_2 ? ' , ' . $tujuan->prod_date_2 : '' }}{{ $tujuan->prod_date_3 ? ' , ' . $tujuan->prod_date_3 : '' }}
     </div>
 @endsection
 
@@ -307,7 +308,6 @@
                      </div>
 
                         <table class="table table-sm table-bordered mt-1">
-
                             <thead>
                                 <tr>
                                     <th>No</th>

@@ -1,21 +1,13 @@
 @extends('layouts.master')
 
 @section('tittle')
-    {{ formatTanggalIndo($tanggal->tanggal) }}, Tally {{ $tanggal->jenis }}
+    Data Item
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item">
-        <a href="{{ url('/') }}">Dashboard</a>
-    </li>
-    <li class="breadcrumb-item"><a href="{{ url('/tally') }}">Data</a></li>
-    <li class="breadcrumb-item active">
-        @if ($tanggal->jenis == 'Frozen')
-            Rak
-        @else
-            DO
-        @endif
-    </li>
+    <li class="breadcrumb-item"> <a href="{{ url('/') }}">Dashboard</a></li>
+    <li class="breadcrumb-item active">Data</li>
+    <li class="breadcrumb-item active">Bahan</li>
 @endsection
 
 @section('content')
@@ -30,7 +22,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="btn-group">
-                                    <button onclick="addForm('{{ route('tujuan.store') }}')" class="btn btn-primary btn-sm">
+                                    <button onclick="addForm('{{ route('bahan.store') }}')" class="btn btn-primary btn-sm">
                                         <i class="fa fa-plus-circle"></i> Tambah Data
                                     </button>
                                 </div>
@@ -42,21 +34,10 @@
                                     @csrf
                                     <table class="table text-center table-bordered">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center" style="width:5%">No</th>
-                                                <th style="width:25%">
-                                                    @if ($tanggal->jenis == 'Frozen')
-                                                        Rak
-                                                    @else
-                                                        DO
-                                                    @endif
-                                                </th>
-                                                <th style="width:20%">Prod. Date 1</th>
-                                                <th style="width:20%">Prod. Date 2</th>
-                                                <th style="width:20%">Prod. Date 3</th>
-                                                <th class="text-center" style="width:15%">Aksi</th>
-                                            </tr>
-
+                                            <th style="width: 20px;">No</th>
+                                            <th>Bahan</th>
+                                            <th>Warna</th>
+                                            <th style="width: 220px;">Aksi</th>
                                         </thead>
                                         <tbody>
 
@@ -74,7 +55,7 @@
             </section>
         </div>
 
-        @include('tujuan.form')
+        @include('bahan.form')
     @endsection
 
     @push('js')
@@ -103,24 +84,17 @@
                         },
                     },
                     ajax: {
-                        url: "{{ route('tujuan.data', $id) }}"
+                        url: '{{ route('bahan.data') }}',
                     },
-
                     columns: [{
                             data: 'DT_RowIndex',
                             searchable: false
                         },
                         {
-                            data: 'nama_tujuan'
+                            data: 'nama'
                         },
                         {
-                            data: 'prod_date_1'
-                        },
-                        {
-                            data: 'prod_date_2'
-                        },
-                        {
-                            data: 'prod_date_3'
+                            data: 'kode'
                         },
                         {
                             data: 'aksi',
@@ -156,9 +130,11 @@
                             })
                             .fail((errors) => {
                                 Swal.fire({
-                                    icon: 'error',
+                                    icon: 'warning',
                                     title: 'Oops...',
                                     text: 'Data gagal disimpan',
+                                    showConfirmButton: false,
+                                    timer: 1500
                                 })
                             });
                     }
@@ -192,16 +168,16 @@
 
                 $.get(url)
                     .done((response) => {
-                        $('#modal-form [name=nama_tujuan]').val(response.nama_tujuan);
-                        $('#modal-form [name=prod_date_1]').val(response.prod_date_1);
-                        $('#modal-form [name=prod_date_2]').val(response.prod_date_2);
-                        $('#modal-form [name=prod_date_3]').val(response.prod_date_3);
+                        $('#modal-form [name=nama]').val(response.nama);
+                        $('#modal-form [name=kode]').val(response.kode);
                     })
                     .fail((errors) => {
                         Swal.fire({
-                            icon: 'error',
+                            icon: 'warning',
                             title: 'Oops...',
                             text: 'Data gagal ditampilkan',
+                            showConfirmButton: false,
+                            timer: 1500
                         })
                     });
             }
@@ -232,7 +208,7 @@
                             })
                             .fail((errors) => {
                                 Swal.fire({
-                                    icon: 'error',
+                                    icon: 'warning',
                                     title: 'Oops...',
                                     text: 'Data gagal dihapus',
                                 })

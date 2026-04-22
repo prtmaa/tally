@@ -113,23 +113,18 @@
                 <table>
 
                     @foreach ($chunk as $t)
+                        {{-- <tr>
+                            <td colspan="2" class="right"></td>
+                        </tr> --}}
+
                         <tr>
-                            <td colspan="2" class="right">{{ $t->urutan }}</td>
+                            <td>{{ $t->urutan }}</td>
+                            <td align="right">Pcs : {{ $t->pcs }}</td>
                         </tr>
 
                         <tr>
-                            <td>No Seri</td>
-                            <td align="right">{{ $t->seri }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>PCS</td>
-                            <td align="right">{{ $t->pcs }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Berat</td>
-                            <td align="right">{{ number_format($t->berat, 2) }} Kg</td>
+                            <td>{{ $t->seri }}</td>
+                            <td align="right">Berat : {{ number_format($t->berat, 2) }} Kg</td>
                         </tr>
 
                         <tr>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BahanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
@@ -59,6 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/print-struk/{id}', [TimbanganController::class, 'printStruk']);
     Route::get('/print-timbangan/{id}', [TimbanganController::class, 'printTimbangan']);
     Route::post('/timbangan/update-warna/{id}', [TimbanganController::class, 'updateWarna']);
+
+    Route::get('/bahan/data', [BahanController::class, 'data'])->name('bahan.data');
+    Route::resource('/bahan', BahanController::class);
 });
 
 require __DIR__ . '/auth.php';

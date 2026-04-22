@@ -38,14 +38,21 @@
         p {
             font-size: 10px;
         }
-        
-       table td.tujuan-utama {
-        font-weight: 900 !important;
-        font-size: 18px !important;
-        color: #000 !important;
-        line-height: 0.9;
-        text-align: center;
-    }
+
+        table td.tujuan-utama {
+            font-weight: 900 !important;
+            font-size: 18px !important;
+            color: #000 !important;
+            line-height: 0.9;
+            text-align: center;
+        }
+
+        table td.item {
+            font-weight: 1000 !important;
+            font-size: 20px !important;
+            color: #000 !important;
+            line-height: 0.9;
+        }
 
         td {
             padding: 2px 0;
@@ -73,37 +80,24 @@
 
     <div class="container">
 
-  <table>
-    <tr>
-        <!-- Kolom 1: Kosong (sebagai penyeimbang) -->
-        <td width="20%"></td> 
-        
-        <!-- Kolom 2: Tujuan (Tengah) -->
-        <td class="tujuan-utama center">{{ $timbang->tujuanProduk->tujuan->nama_tujuan ?? '-' }}</td>
-        
-        <!-- Kolom 3: Urutan (Kanan) -->
-        <td class="right" width="20%">{{ $timbang->urutan }}</td>
-    </tr>
-</table>
+        <table>
+            <tr>
+                <!-- Kolom 1: Kosong (sebagai penyeimbang) -->
+                <td width="20%"></td>
+
+                <!-- Kolom 2: Tujuan (Tengah) -->
+                <td class="tujuan-utama center">{{ $timbang->tujuanProduk->tujuan->nama_tujuan ?? '-' }}</td>
+
+                <!-- Kolom 3: Urutan (Kanan) -->
+                <td class="right" width="20%">{{ $timbang->urutan }}</td>
+            </tr>
+        </table>
         <div class="line"></div>
 
         <table>
-
             <tr>
-                <td>Produk</td>
-                <td class="right">{{ $timbang->tujuanProduk->produk->nama_produk }}</td>
+                <td class="center item">{{ $timbang->tujuanProduk->produk->nama_produk }}</td>
             </tr>
-
-            <tr>
-                <td>Prod. Date</td>
-                <td class="right">{{ $timbang->tujuanProduk->prod_date ?? '-' }}</td>
-            </tr>
-
-            <tr>
-                <td>No Seri</td>
-                <td class="right">{{ $timbang->seri }}</td>
-            </tr>
-
         </table>
 
         <div class="line"></div>
@@ -111,14 +105,24 @@
         <table>
 
             <tr>
-                <td>PCS</td>
-                <td class="right">{{ $timbang->pcs }}</td>
+                <td>Prod. Date : {{ $timbang->tujuanProduk->prod_date ?? '-' }}</td>
+                <td class="right">PCS : {{ $timbang->pcs }}</td>
             </tr>
 
             <tr>
-                <td>Berat</td>
-                <td class="right">{{ number_format($timbang->berat, 2) }} Kg</td>
+                <td>No Seri : {{ $timbang->seri }}</td>
+                <td class="right">Berat : {{ number_format($timbang->berat, 2) }} Kg</td>
             </tr>
+
+            {{-- <tr>
+                <td></td>
+                <td class="right"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td class="right"></td>
+            </tr> --}}
 
         </table>
 

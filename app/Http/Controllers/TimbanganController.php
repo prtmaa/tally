@@ -24,7 +24,8 @@ class TimbanganController extends Controller
 
         $prodDates = [
             $tujuan->prod_date_1,
-            $tujuan->prod_date_2
+            $tujuan->prod_date_2,
+            $tujuan->prod_date_3
         ];
 
         return view('timbangan.index', compact('tujuan', 'produk', 'prodDates'));

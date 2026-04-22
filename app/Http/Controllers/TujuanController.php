@@ -67,6 +67,7 @@ class TujuanController extends Controller
         $tujuan->tanggal_kiriman_id = $request->tanggal_kiriman_id;
         $tujuan->prod_date_1 = $request->prod_date_1;
         $tujuan->prod_date_2 = $request->prod_date_2;
+        $tujuan->prod_date_3 = $request->prod_date_3;
         $tujuan->save();
 
         return response()->json('Data berhasil disimpan', 200);
@@ -85,6 +86,7 @@ class TujuanController extends Controller
         $tujuan->nama_tujuan = $request->nama_tujuan;
         $tujuan->prod_date_1 = $request->prod_date_1;
         $tujuan->prod_date_2 = $request->prod_date_2;
+        $tujuan->prod_date_3 = $request->prod_date_3;
         $tujuan->update();
 
         return response()->json('Data berhasil diubah', 200);

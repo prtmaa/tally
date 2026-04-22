@@ -52,6 +52,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="prod_date_3" class="col-md-2 col-md-offset-1 control-label">Prod. Date 3</label>
+                            <div class="col-md 6">
+                                <input type="text" name="prod_date_3" id="prod_date_3" class="form-control">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i
