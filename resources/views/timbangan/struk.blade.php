@@ -71,7 +71,7 @@
 
     <div class="container">
 
-        @foreach ($chunks as $chunk)
+        @foreach ($groups as $rak => $items)
             <div class="page-break">
                 @php
                     $total_pcs = 0;
@@ -79,40 +79,31 @@
                 @endphp
                 <table>
                     <tr>
-                        <!-- Kolom 1: Kosong (sebagai penyeimbang) -->
-                        <td width="20%"></td>
 
-                        <!-- Kolom 2: Tujuan (Tengah) -->
-                        <td class="tujuan-utama center">{{ $data->tujuan->nama_tujuan ?? '-' }}</td>
-
-                        <!-- Kolom 3: Urutan (Kanan) -->
-                        <td class="right" width="20%"></td>
-                    </tr>
-                </table>
-                <div class="line"></div>
-
-                <table>
-                    <tr>
-                        <td>Produk</td>
-                        <td align="right">{{ $data->produk->nama_produk }}</td>
-                    </tr>
+                        <td colspan="2" class="tujuan-utama center">Rak {{ $rak ?? '-' }}</td>
 
                     <tr>
-                        <td>Prod. Date</td>
-                        <td align="right">{{ $data->prod_date ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="center">
-                            {{ date('d-m-Y', strtotime($data->created_at)) }}
+                        <td>Prod. Date : {{ $data->prod_date ?? '-' }}</td>
+                        <td align="right">
+                            Tgl : {{ date('d-m-Y', strtotime($data->created_at)) }}
                         </td>
                     </tr>
                 </table>
+                <div class="line"></div>
+
+                <table>
+                    <tr>
+                        <td colspan="2" class="tujuan-utama center">{{ $data->produk->nama_produk }}</td>
+                    </tr>
+
+
+                </table>
 
                 <div class="line"></div>
 
                 <table>
 
-                    @foreach ($chunk as $t)
+                    @foreach ($items as $t)
                         {{-- <tr>
                             <td colspan="2" class="right"></td>
                         </tr> --}}

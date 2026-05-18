@@ -28,8 +28,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url('tally') }}"
-                        class="nav-link {{ request()->is('tally*') || request()->is('tujuan*') || request()->is('timbangan*') ? 'active' : '' }} text-light">
+                    <a href="{{ url('tanggalbahan') }}"
+                        class="nav-link {{ request()->is('tanggalbahan*') ? 'active' : '' }} text-light">
                         <i class="nav-icon fas fa-balance-scale"></i>
                         <p>Bahan</p>
                     </a>

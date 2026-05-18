@@ -14,48 +14,67 @@ class TanggalController extends Controller
 
     public function data()
     {
-        $tanggal_kiriman = TanggalKiriman::with('user')->orderBy('created_at', 'desc')->get();
+        $tanggal_kiriman = TanggalKiriman::with('user')->orderBy('tanggal', 'desc')->get();
 
         return datatables()
             ->of($tanggal_kiriman)
             ->addIndexColumn()
-            ->addColumn('tanggal', function ($tanggal_kiriman) {
-                return formatTanggalIndo($tanggal_kiriman->tanggal);
+            ->addColumn('tanggal', function ($row) {
+                return formatTanggalIndo($row->tanggal);
             })
+            ->addColumn('tanggal_sort', function ($row) {
+                return $row->tanggal;
+            })
+
             ->addColumn('user', function ($tanggal_kiriman) {
                 return $tanggal_kiriman->jenis . " - " . $tanggal_kiriman->user->name;
             })
             ->addColumn('aksi', function ($tanggal_kiriman) {
 
                 $view = '<a href="' . route('tujuan.index', $tanggal_kiriman->id) . '" 
-                        class="btn btn-sm btn-success">
-                        <i class="fa fa-eye"></i>
-                        </a>';
+            class="btn btn-sm btn-success">
+            <i class="fa fa-eye"></i>
+            </a>';
 
                 $edit = '';
                 $delete = '';
 
-                if ($tanggal_kiriman->isOwner()) {
+                // MASTER
+                if (auth()->user()->role == 'Master') {
+
                     $edit = '<button type="button"
-                            onclick="editForm(`' . route('tally.update', $tanggal_kiriman->id) . '`)"
-                            class="btn btn-sm btn-info btn-flat">
-                            <i class="fa fa-pen"></i>
-                            </button>';
+                onclick="editForm(`' . route('tally.update', $tanggal_kiriman->id) . '`)"
+                class="btn btn-sm btn-info btn-flat">
+                <i class="fa fa-pen"></i>
+                </button>';
 
                     $delete = '<button type="button"
-                            onclick="deleteData(`' . route('tally.destroy', $tanggal_kiriman->id) . '`)"
-                            class="btn btn-sm btn-danger btn-flat">
-                            <i class="fa fa-trash"></i>
-                            </button>';
+                onclick="deleteData(`' . route('tally.destroy', $tanggal_kiriman->id) . '`)"
+                class="btn btn-sm btn-danger btn-flat">
+                <i class="fa fa-trash"></i>
+                </button>';
+                }
+
+                // USER hanya bisa edit miliknya sendiri
+                elseif (
+                    auth()->user()->role == 'User' &&
+                    $tanggal_kiriman->isOwner()
+                ) {
+
+                    $edit = '<button type="button"
+                onclick="editForm(`' . route('tally.update', $tanggal_kiriman->id) . '`)"
+                class="btn btn-sm btn-info btn-flat">
+                <i class="fa fa-pen"></i>
+                </button>';
                 }
 
                 return '
-                    <div class="btn-group">
-                        ' . $view . '
-                        ' . $edit . '
-                        ' . $delete . '
-                    </div>
-                ';
+        <div class="btn-group">
+            ' . $view . '
+            ' . $edit . '
+            ' . $delete . '
+        </div>
+    ';
             })
 
             ->rawColumns(['aksi', 'tanggal'])

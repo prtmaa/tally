@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\OwnedByUser;
+
+
 
 class TanggalBahan extends Model
 {
+    use OwnedByUser;
+
     protected $fillable = [
         'tanggal',
         'user_id',

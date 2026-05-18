@@ -19,7 +19,7 @@
 
                         <div class="form-group row">
                             <label for="nama" class="col-md-2 col-md-offset-1 control-label">Bahan</label>
-                            <div class="col-md 6">
+                            <div class="col-md-10">
                                 <input type="text" name="nama" id="nama" class="form-control" required
                                     oninvalid="this.setCustomValidity('Nama item harus diisi')"
                                     oninput="this.setCustomValidity('')" autofocus>
@@ -29,10 +29,16 @@
 
                         <div class="form-group row">
                             <label for="kode" class="col-md-2 col-md-offset-1 control-label">Warna</label>
-                            <div class="col-md 6">
-                                <input type="text" name="kode" id="kode" class="form-control" required
-                                    oninvalid="this.setCustomValidity('Kode item harus diisi')"
-                                    oninput="this.setCustomValidity('')" autofocus>
+                            <div class="col-md-10">
+                                <select name="kode" id="kode" class="form-control select2bs4">
+                                    <option value="" disabled selected>Pilih warna...</option>
+                                    <option value="merah">Merah</option>
+                                    <option value="hijau">Hijau</option>
+                                    <option value="kuning">Kuning</option>
+                                    <option value="biru">Biru</option>
+                                    <option value="ungu">Ungu</option>
+                                    <option value="abu">Abu</option>
+                                </select>
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>

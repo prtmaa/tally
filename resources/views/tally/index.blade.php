@@ -89,6 +89,10 @@
                         url: '{{ route('tally.data') }}',
                     },
                     columns: [{
+                            data: 'tanggal_sort',
+                            visible: false
+                        },
+                        {
                             data: 'tanggal'
                         },
                         {

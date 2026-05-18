@@ -25,35 +25,49 @@ class TujuanController extends Controller
             ->addColumn('aksi', function ($tujuan) {
 
                 $view = '<a href="' . route('timbangan.index', $tujuan->id) . '" 
-                        class="btn btn-sm btn-success">
-                        <i class="fas fa-balance-scale"></i>
-                        </a>';
+            class="btn btn-sm btn-success">
+            <i class="fa fa-eye"></i>
+            </a>';
 
                 $edit = '';
                 $delete = '';
 
-                if ($tujuan->isOwner()) {
+                // MASTER
+                if (auth()->user()->role == 'Master') {
 
                     $edit = '<button type="button"
-                            onclick="editForm(`' . route('tujuan.update', $tujuan->id) . '`)"
-                            class="btn btn-sm btn-info">
-                            <i class="fa fa-pen"></i>
-                            </button>';
+                onclick="editForm(`' . route('tujuan.update', $tujuan->id) . '`)"
+                class="btn btn-sm btn-info btn-flat">
+                <i class="fa fa-pen"></i>
+                </button>';
 
                     $delete = '<button type="button"
-                            onclick="deleteData(`' . route('tujuan.destroy', $tujuan->id) . '`)"
-                            class="btn btn-sm btn-danger">
-                            <i class="fa fa-trash"></i>
-                            </button>';
+                onclick="deleteData(`' . route('tujuan.destroy', $tujuan->id) . '`)"
+                class="btn btn-sm btn-danger btn-flat">
+                <i class="fa fa-trash"></i>
+                </button>';
+                }
+
+                // USER hanya bisa edit miliknya sendiri
+                elseif (
+                    auth()->user()->role == 'User' &&
+                    $tujuan->isOwner()
+                ) {
+
+                    $edit = '<button type="button"
+                onclick="editForm(`' . route('tujuan.update', $tujuan->id) . '`)"
+                class="btn btn-sm btn-info btn-flat">
+                <i class="fa fa-pen"></i>
+                </button>';
                 }
 
                 return '
-                    <div class="btn-group">
-                        ' . $view . '
-                        ' . $edit . '
-                        ' . $delete . '
-                    </div>
-                ';
+        <div class="btn-group">
+            ' . $view . '
+            ' . $edit . '
+            ' . $delete . '
+        </div>
+    ';
             })
 
             ->rawColumns(['aksi'])

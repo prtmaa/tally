@@ -103,6 +103,7 @@ class TimbanganController extends Controller
             'tujuan_produk_id' => $request->tujuan_produk_id,
             'pcs' => $request->pcs,
             'berat' => $request->berat,
+            'rak' => $request->rak,
             'urutan' => $urutan,
             'seri' => $seri
         ]);
@@ -119,7 +120,8 @@ class TimbanganController extends Controller
 
         $data->update([
             'pcs' => $request->pcs,
-            'berat' => $request->berat
+            'berat' => $request->berat,
+            'rak' => $request->rak
         ]);
 
         return response()->json(['status' => 'success']);
@@ -172,14 +174,45 @@ class TimbanganController extends Controller
         return Excel::download(new RekapDoExport($id), 'DO_' . $tujuan->nama_tujuan . '_' . date('Ymd') . '.xlsx');
     }
 
-    public function printStruk($tujuan_produk_id)
+    // public function printStruk($tujuan_produk_id)
+    // {
+    //     $data = TujuanProduk::with(['produk', 'timbangans', 'tujuan'])->findOrFail($tujuan_produk_id);
+    //     $timbangans = $data->timbangans;
+    //     $chunks = $timbangans->chunk(10);
+    //     $pdf = Pdf::loadView('timbangan.struk', ['data' => $data, 'chunks' => $chunks])->setPaper([0, 0, 226.77, 750], 'portrait');
+    //     return $pdf->stream("sampel.pdf");
+    // }
+
+    public function printStruk($tujuan_produk_id, Request $request)
     {
-        $data = TujuanProduk::with(['produk', 'timbangans', 'tujuan'])->findOrFail($tujuan_produk_id);
+        $data = TujuanProduk::with(['produk', 'timbangans', 'tujuan'])
+            ->findOrFail($tujuan_produk_id);
+
+        $rak = $request->rak; // ambil rak dari request
+
         $timbangans = $data->timbangans;
-        $chunks = $timbangans->chunk(10);
-        $pdf = Pdf::loadView('timbangan.struk', ['data' => $data, 'chunks' => $chunks])->setPaper([0, 0, 226.77, 750], 'portrait');
-        return $pdf->stream("sampel.pdf");
+
+        // 🔥 filter jika pilih rak tertentu
+        if ($rak) {
+            $timbangans = $timbangans->where('rak', $rak);
+        }
+
+        // 🔥 group berdasarkan rak
+        $groups = $timbangans->groupBy('rak');
+
+        if ($groups->isEmpty()) {
+            abort(404, 'Data tidak ditemukan');
+        }
+
+        $pdf = Pdf::loadView('timbangan.struk', [
+            'data' => $data,
+            'groups' => $groups
+        ])->setPaper([0, 0, 226.77, 750], 'portrait');
+
+        return $pdf->stream("struk_rak_{$rak}.pdf");
     }
+
+
 
     public function printTimbangan($id)
     {

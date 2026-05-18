@@ -22,25 +22,128 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-body table-responsive">
+                            <div class="card-body">
+
                                 <div class="mb-3 d-flex align-items-center gap-2">
                                     <input type="date" id="tanggal" class="form-control form-control-sm tanggal"
                                         style="width: 160px;">
                                 </div>
 
-                                <table id="tabel-rekap" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%">No</th>
-                                            <th width="35%">Produk</th>
-                                            <th width="20%">Total PCS</th>
-                                            <th width="20%">Total Berat</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                                <div class="row mb-3">
 
+                                    <div class="col-md-12">
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Bahan</h6>
+                                            </div>
+
+                                            <div class="card-body">
+
+                                                <div class="table-responsive">
+
+                                                    <table id="tabel-bahan" class="table table-bordered table-striped">
+
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="5%">No</th>
+                                                                <th>Bahan</th>
+                                                                <th>Total PCS</th>
+                                                                <th>Total Berat</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th colspan="2">TOTAL</th>
+                                                                <th id="total_pcs_bahan"></th>
+                                                                <th id="total_berat_bahan"></th>
+                                                            </tr>
+                                                        </tfoot>
+
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- 🔹 KIRI: FROZEN -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="">Frozen</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table id="tabel-frozen" class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Produk</th>
+                                                                <th>Total PCS</th>
+                                                                <th>Total Berat</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th colspan="2">TOTAL</th>
+                                                                <th id="total_pcs_frozen"></th>
+                                                                <th id="total_berat_frozen"></th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- 🔹 KANAN: FRESH -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="">Fresh</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table id="tabel-fresh" class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Produk</th>
+                                                                <th>Total PCS</th>
+                                                                <th>Total Berat</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th colspan="2">TOTAL</th>
+                                                                <th id="total_pcs_fresh"></th>
+                                                                <th id="total_berat_fresh"></th>
+                                                            </tr>
+                                                        </tfoot>
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
+
 
                     </div>
 
@@ -51,38 +154,21 @@
     @endsection
     @push('js')
         <script>
-            let table = $('#tabel-rekap').DataTable({
+            let tableFrozen = $('#tabel-frozen').DataTable({
                 processing: false,
                 serverSide: true,
-                deferRender: true,
-                autoWidth: false,
-                responsive: true,
                 searching: false,
                 paging: false,
-                "language": {
-                    "sProcessing": "Sedang memproses...",
-                    "sLengthMenu": "Tampilkan _MENU_ entri",
-                    "sZeroRecords": "Tidak ditemukan data yang sesuai",
-                    "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                    "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
-                    "sSearch": "Pencarian:",
-                    "oPaginate": {
-                        "sFirst": "Pertama",
-                        "sPrevious": "Sebelumnya",
-                        "sNext": "Selanjutnya",
-                        "sLast": "Terakhir"
-                    },
-                },
+                info: false,
                 ajax: {
-                    url: "{{ route('rekap.data') }}",
+                    url: "{{ route('rekap.frozen') }}",
                     data: function(d) {
-                        d.tanggal = $('#tanggal').val(); // 🔥 kirim 1 tanggal
+                        d.tanggal = $('#tanggal').val();
                     }
                 },
                 columns: [{
                         data: 'DT_RowIndex',
-                        orderable: false,
+                        orderable: false, // 🔥 penting
                         searchable: false
                     },
                     {
@@ -92,18 +178,144 @@
                         data: 'total_pcs'
                     },
                     {
-                        data: 'total_berat'
+                        data: 'total_berat',
+                        render: function(data) {
+                            return parseFloat(data).toFixed(2);
+                        }
                     }
+
                 ],
                 columnDefs: [{
                     targets: '_all',
                     className: 'text-center'
-                }]
+                }],
+
+                footerCallback: function(row, data) {
+                    let totalPcs = 0;
+                    let totalBerat = 0;
+
+                    data.forEach(function(item) {
+                        totalPcs += parseFloat(item.total_pcs) || 0;
+                        totalBerat += parseFloat(item.total_berat) || 0;
+                    });
+
+                    $('#total_pcs_frozen').html(totalPcs);
+                    $('#total_berat_frozen').html(totalBerat.toFixed(2));
+                }
             });
 
+
+
+            let tableFresh = $('#tabel-fresh').DataTable({
+                processing: false,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+                ajax: {
+                    url: "{{ route('rekap.fresh') }}",
+                    data: function(d) {
+                        d.tanggal = $('#tanggal').val();
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        orderable: false, // 🔥 penting
+                        searchable: false
+                    },
+                    {
+                        data: 'nama_produk'
+                    },
+                    {
+                        data: 'total_pcs'
+                    },
+                    {
+                        data: 'total_berat',
+                        render: function(data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    }
+
+                ],
+                columnDefs: [{
+                    targets: '_all',
+                    className: 'text-center'
+                }],
+                footerCallback: function(row, data) {
+                    let totalPcs = 0;
+                    let totalBerat = 0;
+
+                    data.forEach(function(item) {
+                        totalPcs += parseFloat(item.total_pcs) || 0;
+                        totalBerat += parseFloat(item.total_berat) || 0;
+                    });
+
+                    $('#total_pcs_fresh').html(totalPcs);
+                    $('#total_berat_fresh').html(totalBerat.toFixed(2));
+                }
+
+            });
+
+            let tableBahan = $('#tabel-bahan').DataTable({
+                processing: false,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+
+                ajax: {
+                    url: "{{ route('rekap.bahan') }}",
+                    data: function(d) {
+                        d.tanggal = $('#tanggal').val();
+                    }
+                },
+
+                columns: [{
+                        data: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'nama'
+                    },
+                    {
+                        data: 'total_pcs'
+                    },
+                    {
+                        data: 'total_berat',
+                        render: function(data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    }
+                ],
+
+                columnDefs: [{
+                    targets: '_all',
+                    className: 'text-center'
+                }],
+
+                footerCallback: function(row, data) {
+
+                    let totalPcs = 0;
+                    let totalBerat = 0;
+
+                    data.forEach(function(item) {
+                        totalPcs += parseFloat(item.total_pcs) || 0;
+                        totalBerat += parseFloat(item.total_berat) || 0;
+                    });
+
+                    $('#total_pcs_bahan').html(totalPcs);
+                    $('#total_berat_bahan').html(totalBerat.toFixed(2));
+                }
+            });
+
+
             setInterval(function() {
-                table.ajax.reload(null, false);
+                tableBahan.ajax.reload(null, false);
+                tableFrozen.ajax.reload(null, false);
+                tableFresh.ajax.reload(null, false);
             }, 1000);
+
 
             flatpickr(".tanggal", {
                 dateFormat: "Y-m-d",

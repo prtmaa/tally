@@ -27,21 +27,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="jenis" class="col-md-4 col-md-offset-1 control-label">Tally</label>
-                            <div class="col-md-8">
-                                <select name="jenis" id="jenis" class="form-control select2bs4">
-                                    <option value="" disabled selected>Pilih tally...</option>
-                                    <option value="Fresh BSB">Fresh BSB</option>
-                                    <option value="Fresh Campuran">Fresh Campuran</option>
-                                    <option value="Fresh Tulang">Fresh Tulang</option>
-                                    <option value="Frozen Tulang">Frozen Tulang</option>
-                                    <option value="Frozen">Frozen</option>
-                                </select>
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i

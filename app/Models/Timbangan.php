@@ -16,6 +16,7 @@ class Timbangan extends Model
         'pcs',
         'seri',
         'berat',
+        'rak',
         'urutan',
         'warna',
     ];

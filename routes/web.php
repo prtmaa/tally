@@ -4,7 +4,9 @@ use App\Http\Controllers\BahanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TanggalBahanController;
 use App\Http\Controllers\TanggalController;
+use App\Http\Controllers\TimbanganBahanController;
 use App\Http\Controllers\TimbanganController;
 use App\Http\Controllers\TujuanController;
 use App\Http\Controllers\UserController;
@@ -22,7 +24,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/rekap/data', [DashboardController::class, 'data'])->name('rekap.data');
+    Route::get('/rekap/frozen', [DashboardController::class, 'dataFrozen'])->name('rekap.frozen');
+    Route::get('/rekap/fresh', [DashboardController::class, 'dataFresh'])->name('rekap.fresh');
+    Route::get('/rekap/bahan', [DashboardController::class, 'dataBahan'])
+        ->name('rekap.bahan');
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
@@ -60,9 +65,43 @@ Route::middleware('auth')->group(function () {
     Route::get('/print-struk/{id}', [TimbanganController::class, 'printStruk']);
     Route::get('/print-timbangan/{id}', [TimbanganController::class, 'printTimbangan']);
     Route::post('/timbangan/update-warna/{id}', [TimbanganController::class, 'updateWarna']);
+    Route::get('/timbangan/rak-list/{id}', function ($id) {
+        $data = \App\Models\TujuanProduk::with('timbangans')->findOrFail($id);
+
+        $rak = $data->timbangans
+            ->pluck('rak')
+            ->filter() // buang null
+            ->unique()
+            ->sort()
+            ->values();
+
+        return response()->json([
+            'rak' => $rak
+        ]);
+    });
 
     Route::get('/bahan/data', [BahanController::class, 'data'])->name('bahan.data');
     Route::resource('/bahan', BahanController::class);
+
+    Route::get('/tanggalbahan/data', [TanggalBahanController::class, 'data'])->name('tanggalbahan.data');
+    Route::resource('/tanggalbahan', TanggalBahanController::class);
+
+    Route::get('/timbangan-bahan/load/{id}', [TimbanganBahanController::class, 'load'])
+        ->name('timbanganbahan.load');
+
+    Route::post('/timbangan-bahan', [TimbanganBahanController::class, 'store'])
+        ->name('timbanganbahan.store');
+
+    Route::put('/timbangan-bahan/{id}', [TimbanganBahanController::class, 'update']);
+
+    Route::delete('/timbangan-bahan/{id}', [TimbanganBahanController::class, 'destroy'])
+        ->name('timbanganbahan.destroy');
+
+    Route::get('/timbanganbahan/{id}', [TimbanganBahanController::class, 'index'])
+        ->name('timbanganbahan.index');
+
+    Route::get('/timbangan-bahan/export/{id}', [TimbanganBahanController::class, 'export'])
+        ->name('timbanganbahan.export');
 });
 
 require __DIR__ . '/auth.php';
